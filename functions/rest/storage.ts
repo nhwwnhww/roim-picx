@@ -553,5 +553,5 @@ export function getProviderByType(c: any, type: 'R2' | 'HF'): StorageProvider {
     if (type === 'HF' && c.env.HF_TOKEN && c.env.HF_REPO) {
         return new HFStorageProvider(c.env.HF_TOKEN, c.env.HF_REPO, c.env.BASE_URL)
     }
-    return new R2StorageProvider(c.env.PICX, c.env.BASE_URL)
+    return new R2StorageProvider(c.env.PICX, c.env.R2_PUBLIC_URL || c.env.BASE_URL)
 }
