@@ -14,7 +14,7 @@
 
   "r2_buckets": [
     {
-      "binding": "BUCKET",
+      "binding": "PICX",
       "bucket_name": "wei-photography"
     }
   ],
