@@ -71,7 +71,7 @@ export class R2StorageProvider implements StorageProvider {
     }
 
     getPublicUrl(key: string): string {
-        return `${this.baseUrl}/rest/${key}`
+        return `${this.normalizeBaseUrl()}/${this.encodeKeyForUrl(safeKey)}`
     }
 }
 
