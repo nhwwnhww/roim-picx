@@ -1,7 +1,12 @@
 {
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "roim-picx",
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2026-06-09",
+
   "d1_databases": [
     {
-      "binding": "roim_picx_db",
+      "binding": "DB",
       "database_name": "roim-picx-db",
       "database_id": "985629c7-b682-4e50-a29f-d215e19e6900"
     }
