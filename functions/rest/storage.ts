@@ -34,24 +34,35 @@ export interface StorageProvider {
 export class R2StorageProvider implements StorageProvider {
     constructor(private bucket: R2Bucket, private baseUrl: string) { }
 
+    private cleanKey(key: string): string {
+        return key
+            .replace(/^\/+/, '')
+            .replace(/^rest\//, '')
+    }
+
     async put(key: string, body: any, options: any): Promise<StorageResult> {
-        const object = await this.bucket.put(key, body, {
+        const safeKey = this.cleanKey(key)
+
+        const object = await this.bucket.put(safeKey, body, {
             httpMetadata: { contentType: options.contentType },
             customMetadata: options.metadata
         })
+
         return {
             key: object.key,
-            size: object.size
+            size: object.size,
+            url: this.getPublicUrl(object.key)
         }
     }
 
     async delete(key: string): Promise<void> {
-        await this.bucket.delete(key)
+        await this.bucket.delete(this.cleanKey(key))
     }
 
     async get(key: string, options?: any): Promise<any> {
-        const object = await this.bucket.get(key, options) as any
+        const object = await this.bucket.get(this.cleanKey(key), options) as any
         if (!object) return null
+
         return {
             body: object.body,
             contentType: object.httpMetadata?.contentType,
@@ -61,8 +72,9 @@ export class R2StorageProvider implements StorageProvider {
     }
 
     async head(key: string): Promise<any> {
-        const object = await this.bucket.head(key)
+        const object = await this.bucket.head(this.cleanKey(key))
         if (!object) return null
+
         return {
             size: object.size,
             contentType: object.httpMetadata?.contentType,
@@ -70,11 +82,21 @@ export class R2StorageProvider implements StorageProvider {
         }
     }
 
-    getPublicUrl(key: string): string {
-        return `${this.normalizeBaseUrl()}/${this.encodeKeyForUrl(safeKey)}`
+    getPublicUrl = (key: string): string => {
+        const safeKey = key
+            .replace(/^\/+/, '')
+            .replace(/^rest\//, '')
+
+        const baseUrl = this.baseUrl.replace(/\/+$/, '')
+
+        const encodedKey = safeKey
+            .split('/')
+            .map(segment => encodeURIComponent(segment))
+            .join('/')
+
+        return `${baseUrl}/${encodedKey}`
     }
 }
-
 export class HFStorageProvider implements StorageProvider {
     private baseUrl = 'https://huggingface.co/api/datasets'
     private uploadUrl = 'https://huggingface.co'
