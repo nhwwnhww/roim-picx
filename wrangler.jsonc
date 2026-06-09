@@ -10,5 +10,19 @@
       "database_name": "roim-picx-db",
       "database_id": "985629c7-b682-4e50-a29f-d215e19e6900"
     }
+  ],
+
+  "r2_buckets": [
+    {
+      "binding": "BUCKET",
+      "bucket_name": "wei-photography"
+    }
+  ],
+
+  "kv_namespaces": [
+    {
+      "binding": "KV",
+      "id": "a0008df268854f6fa0feb1558962b190"
+    }
   ]
 }
