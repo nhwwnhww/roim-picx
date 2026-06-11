@@ -22,11 +22,11 @@ export interface WatermarkConfig {
 }
 
 export const defaultWatermarkConfig: WatermarkConfig = {
-    enabled: false,
-    text: 'PICX',
-    position: 'bottom-right',
-    fontSize: 3,
-    opacity: 50,
+    enabled: true,
+    text: 'WEI PHOTOGRAPHY',
+    position: 'center',
+    fontSize: 10,
+    opacity: 100,
     color: '#ffffff'
 }
 
